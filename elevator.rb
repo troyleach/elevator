@@ -16,6 +16,7 @@ class ElevatorController
   end
 
   def exit_building
+    # BUG if I open the doors to the elevator on the first floor then type q.. busts the code
     if cab.current_floor != 1
       puts `say Please go to first floor, unless you are doing something crazy`
       cab.direction = 'down'
@@ -226,7 +227,7 @@ class Display
   end
 
   def self.display_current_floor(floor)
-    self.display = floor
+    display = floor
     `say #{numbers_to_name[floor]} Floor `
   end
 
