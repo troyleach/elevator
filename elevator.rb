@@ -16,7 +16,8 @@ class ElevatorController
   end
 
   def exit_building
-    # BUG if I open the doors to the elevator on the first floor then type q.. busts the code
+    # BUG if I open the doors to the elevator on the first floor then type q..
+    # busts the code
     if cab.current_floor != 1
       puts `say Please go to first floor, unless you are doing something crazy`
       cab.direction = 'down'
@@ -53,73 +54,6 @@ class ElevatorController
       Cab.close_doors
       buttons.illeminate = false
     end
-    # I can create the objects in here
-    # maybe I can use a struct here maybe
-    # pass the current floor
-    # puts buttons.floor_call_buttons[Display.numbers_to_name[cab.current_floor]]
-    # puts buttons.floor_call_buttons(cab.current_floor)
-    # action1 = gets.chomp
-    # buttons.illeminate = true if action1.casecmp('u').zero?
-    # # I dont think I need to call the class here below
-    # Cab.open_doors
-    # # needs to be set else where
-    # display = cab.current_floor
-    # Display.display_current_floor(display)
-    # puts "Your current floor is #{display}"
-    # p buttons.cab_call_buttons
-    # cab.destination = gets.chomp
-    # Cab.close_doors
-    # cab.move_cab_up
-    # Cab.open_doors
-    # Cab.close_doors
-    # buttons.illeminate = false
-    # # I think what might be better is pass the current floor then it will give back the correct call buttons
-    # puts buttons.floor_call_buttons(cab.current_floor)
-    # # I have to call the elevation
-    # # open the doors
-    # # display the floor buttons
-    # # do something with the destation
-    # # should not be any logic here
-
-    # # have to put direction in here so that I know what direction the elevator
-    # # is moving to pick up ofther peeps
-    # action2 = gets.chomp
-    # cab.direction = action2 == 'u' ? 'up' : 'down'
-
-    # # need to figure out what direction they want to go to call the right method
-
-    # Cab.open_doors
-    # Display.display_current_floor(cab.current_floor)
-    # p buttons.cab_call_buttons
-    # cab.destination = gets.chomp.to_i
-    # Cab.close_doors
-
-    # if cab.direction = 'up'
-    #   cab.move_cab_up
-    # else
-    #   cab.move_cab_down
-    # end
-
-    # Cab.open_doors
-    # Cab.close_doors
-    # buttons.illeminate = false
-
-    # puts buttons.floor_call_buttons(cab.current_floor)
-    # action3 = gets.chomp
-
-    # cab.direction = action3 == 'u' ? 'up' : 'down'
-    # Cab.open_doors
-    # Display.display_current_floor(cab.current_floor)
-    # p buttons.cab_call_buttons
-    # cab.destination = gets.chomp.to_i
-    # Cab.close_doors
-    # cab.move_cab_down
-    # Cab.open_doors
-    # Cab.close_doors
-    # buttons.illeminate = false
-
-    # puts buttons.floor_call_buttons(cab.current_floor)
-    # puts 'good bye'
     puts 'Have a great day'
   end
 end
@@ -151,8 +85,10 @@ class Cab
     # need to do a up and a down
     # TODO: don't say current floor
     # destination = destination.to_i
-    current_floor.upto(destination.to_i) do |floor|
+    dispaly_start = current_floor + 1
+    dispaly_start.upto(destination.to_i) do |floor|
       sleep(speed)
+      # don't like this floor - 1 stuff
       Display.display_current_floor(floor)
     end
 
@@ -160,7 +96,8 @@ class Cab
   end
 
   def move_cab_down
-    current_floor.downto(destination.to_i) do |floor|
+    dispaly_start = current_floor - 1
+    dispaly_start.downto(destination.to_i) do |floor|
       sleep(speed)
       Display.display_current_floor(floor)
     end
@@ -177,17 +114,6 @@ class Button
   def initialize(args)
     @illeminate = false
     @cab_call_buttons = (1..args[:number_of_floors]).to_a.freeze
-  end
-
-  def cab_up
-    # move into floor_buttons
-    # with direction att
-    puts 'Type U for up button'
-  end
-
-  def cab_down
-    # move into floor_buttons
-    puts 'type D for down button'
   end
 
   def floor_call_buttons(floor)
@@ -207,13 +133,6 @@ class Button
     #   'top' => '(D) DOWN'
     # }
   end
-
-  # def cab_call_buttons
-  #   # this lives in the cab_buttons model with att direction
-  #   # need to figure out where the floors would live
-  #   puts 'Please select a floor'
-  #   p BUTTONS
-  # end
 end
 
 class Display
@@ -228,7 +147,7 @@ class Display
 
   def self.display_current_floor(floor)
     display = floor
-    `say #{numbers_to_name[floor]} Floor `
+    `say #{numbers_to_name[floor]} Floor`
   end
 
   # this goes in the module
