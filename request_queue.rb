@@ -11,16 +11,16 @@ class Request
     @direction = direction
   end
 
-  def <=>(other)
-    other.floor <=> @floor
-  end
   # def <=>(other)
-  #   if @direction == 'up'
-  #     other.floor <=> @floor
-  #   else
-  #     @floor <=> other.floor
-  #   end
+  #   other.floor <=> @floor
   # end
+  def <=>(other)
+    if @direction == 'up'
+      other.floor <=> @floor
+    else
+      @floor <=> other.floor
+    end
+  end
 end
 
 class RequestQueue
@@ -34,6 +34,10 @@ class RequestQueue
 
   def direction
     @requests[0].direction
+  end
+
+  def group_by
+    @requests.group_by(&:direction)
   end
 
   def pop

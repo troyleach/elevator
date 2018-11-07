@@ -16,7 +16,7 @@ class Cab
     @idle           = true
     @speed          = 1
     @direction      = nil
-    @current_floor  = 2
+    @current_floor  = 4
     @destination    = nil
     @cab_request_q = RequestQueue.new
   end
@@ -31,18 +31,34 @@ class Cab
     sleep(2)
   end
 
-  def call_cab
-    # not sure this is the best place for this
-    self.idle = false
-    move_cab_down
-    # if the cab is on 4 and I am on 1
+  def call_cab(user_input)
+    if idle?
+      self.direction = user_input.direction
+      self.destination = user_input.floor
+      self.idle = false
+      cab_request_q << Request.new(user_input.floor, user_input.direction)
+    else
+      # I thiiink...
+      # cab_request_q << Request.new(user_input.floor, user_input.direction)
+      # ... do some cool things here
+    end
+    move_cab
   end
 
   def current_floor?; end
 
+  def format_q
+    self.cab_request_q = cab_request_q.group_by
+  end
+
   def move_cab
-    until cab_request_q.empty?
-      if cab_request_q.direction == 'up'
+    format_q
+    puts "FUCKER FACE #{direction}"
+    # take care of this.. ace the nil guard just put in arrays
+    until (cab_request_q['up'].nil? || cab_request_q['up'].empty?) &&
+          (cab_request_q['down'].nil? || cab_request_q['down'].empty?)
+      if direction == 'up'
+        # if cab_request_q.direction == 'up'
         # if direction == 'up' && cab_request_q.direction == 'up'
         move_cab_up
       else
@@ -51,10 +67,11 @@ class Cab
       open_doors
       close_doors
     end
+    self.idle = true
   end
 
   def move_cab_up
-    destination = cab_request_q.pop.floor
+    destination = cab_request_q['up'].pop.floor
     # destination = cab_request_q.up.pop.floor
 
     # def move_cab(direction)
@@ -73,7 +90,7 @@ class Cab
   end
 
   def move_cab_down
-    destination = cab_request_q.pop.floor
+    destination = cab_request_q['down'].pop.floor
     # destination = cab_request_q.down.pop.floor
     # current_floor -= 1 but how would I display?
     display_start = current_floor - 1
@@ -82,5 +99,11 @@ class Cab
       Display.display_current_floor(floor)
     end
     self.current_floor = destination
+  end
+
+  private
+
+  def idle?
+    idle == true
   end
 end

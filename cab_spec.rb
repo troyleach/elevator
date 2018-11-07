@@ -28,10 +28,22 @@ describe 'class Cab' do
     end
 
     describe 'expect DOWN to be the priority' do
+      # q = {
+      #   up: [],
+      #   down: []
+      # }
       it 'testing' do
-        floors = [2, 7, 3, 10]
-        test_setup('d', floors)
-        binding.pry
+        buttons_pushed = [2, 7, 3, 10]
+        # test_setup(current_floor:int, direction:string, buttons_pushed:array)
+        test_setup(5, 'd', buttons_pushed)
+        # why is cab.destination == 10 (not sure it matters really)
+        # runs something like format_q
+        cab.format_q
+
+        expect(cab.cab_request_q['down'].pop.floor).to eq(3)
+        expect(cab.cab_request_q['down'].pop.floor).to eq(2)
+        expect(cab.cab_request_q['up'].pop.floor).to eq(7)
+        expect(cab.cab_request_q['up'].pop.floor).to eq(10)
       end
     end
 
@@ -40,10 +52,10 @@ describe 'class Cab' do
   end
 end
 
-def test_setup(direction, floors)
+def test_setup(current_floor, direction, buttons_pushed)
   cab.direction = direction
-  cab.current_floor = 5
-  floors.each do |floor|
+  cab.current_floor = current_floor
+  buttons_pushed.each do |floor|
     formated_request = format_request(floor)
     cab.cab_request_q << Request.new(formated_request.floor, formated_request.direction)
   end

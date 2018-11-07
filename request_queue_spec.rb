@@ -56,4 +56,36 @@ describe 'queue' do
     end
   end
 
+  describe 'Cab moving down' do
+    let(:q) { RequestQueue.new }
+    it 'expect positive results' do
+      q << Request.new(4, 'dn')
+      q << Request.new(3, 'dn')
+      q << Request.new(5, 'dn')
+      q << Request.new(2, 'dn')
+
+      expect(q.empty?).to be(false)
+      expect(q.pop.floor).to eq(5)
+      expect(q.pop.floor).to eq(4)
+      expect(q.pop.floor).to eq(3)
+      expect(q.pop.floor).to eq(2)
+    end
+  end
+
+  describe '#group_by' do
+    let(:q) { RequestQueue.new }
+    it 'expect positive results' do
+      q << Request.new(2, 'down')
+      q << Request.new(7, 'up')
+      q << Request.new(3, 'down')
+      q << Request.new(10, 'up')
+      result = q.group_by
+
+      expect(result.keys).to eq(%w[down up])
+      expect(result['up']).to include(7)
+      expect(result['up']).to include(10)
+      expect(result['down']).to include(2)
+      expect(result['down']).to include(3)
+    end
+  end
 end

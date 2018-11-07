@@ -16,7 +16,6 @@ module UserInput
     #   result = UserRequest.new(data[0].to_i, data[1])
     # end
 
-    cab.destination = user_input.to_i
     user_input.to_i < cab.current_floor ? result = UserRequest.new(user_input.to_i, 'down') : result = UserRequest.new(user_input.to_i, 'up')
     result
   end

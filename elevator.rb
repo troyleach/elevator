@@ -73,23 +73,29 @@ class ElevatorController
 
   def run
     display.start_elevator
+    #move below
+    puts 'what floor are you starting on?'
+    puts 'Just enter a number'
     # puts buttons.floor_call_buttons(1) they can enter what ever they want
     until quit
-      puts 'what floor are you on?'
-      # cab.destination = gets.chomp.to_i
       input = format_request(gets.chomp)
 
-      if cab.destination != bottom_floor && cab.destination != top_floor
+      # Not sure this goes here
+      if input.floor != bottom_floor && input.floor != top_floor
         direction_key = {
           "u" => "up",
           "d" => "down"
         }
         puts buttons.floor_call_buttons(floor)
         dir = gets.chomp
-        input.direction = direction_key[dir]
-        cab.direction = input.direction
+        cab.direction = direction_key[dir]
         # cab.cab_request_q << Request.new(input.floor, input.direction)
       end
+      # cab.cab_request_q << Request.new(input.floor, input.direction)
+      cab.call_cab(input)
+
+      exit
+      cab.move_cab
       cab.cab_request_q << Request.new(input.floor, input.direction)
       
       # how will I keep them from entering 6,up if they pushed the down button, maybe I don't, it will just fall in the q or it wont go anywhere like the elevators do
