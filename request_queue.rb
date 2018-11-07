@@ -4,16 +4,23 @@ require 'pry'
 class Request
   include Comparable
 
-  attr_accessor :floor, :priority
+  attr_accessor :floor, :direction
 
-  def initialize(floor, priority)
+  def initialize(floor, direction)
     @floor = floor
-    @priority = priority
+    @direction = direction
   end
 
   def <=>(other)
     other.floor <=> @floor
   end
+  # def <=>(other)
+  #   if @direction == 'up'
+  #     other.floor <=> @floor
+  #   else
+  #     @floor <=> other.floor
+  #   end
+  # end
 end
 
 class RequestQueue
@@ -26,7 +33,7 @@ class RequestQueue
   end
 
   def direction
-    @requests[0].priority
+    @requests[0].direction
   end
 
   def pop
@@ -39,13 +46,3 @@ class RequestQueue
     @requests.empty?
   end
 end
-
-# q = NaivePriorityQueue.new
-
-# q << Element.new('second', 3)
-# q << Element.new('last', 100)
-# q << Element.new('sixth', 44)
-# q << Element.new('first', 1)
-# q << Element.new('fifth', 30)
-# q << Element.new('fourth', 8)
-# q << Element.new('thrid', 7)

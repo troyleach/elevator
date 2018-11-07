@@ -43,6 +43,7 @@ class Cab
   def move_cab
     until cab_request_q.empty?
       if cab_request_q.direction == 'up'
+        # if direction == 'up' && cab_request_q.direction == 'up'
         move_cab_up
       else
         move_cab_down
@@ -54,6 +55,8 @@ class Cab
 
   def move_cab_up
     destination = cab_request_q.pop.floor
+    # destination = cab_request_q.up.pop.floor
+
     # def move_cab(direction)
     # need to do a up and a down
     # TODO: don't say current floor
@@ -71,12 +74,13 @@ class Cab
 
   def move_cab_down
     destination = cab_request_q.pop.floor
+    # destination = cab_request_q.down.pop.floor
     # current_floor -= 1 but how would I display?
     display_start = current_floor - 1
     display_start.downto(destination.to_i) do |floor|
       sleep(speed)
       Display.display_current_floor(floor)
     end
-    self.current_floor = destination.to_i
+    self.current_floor = destination
   end
 end
