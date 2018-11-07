@@ -40,19 +40,32 @@ class ElevatorController
     end
     false
   end
-
+# order of operation is this:
+ # if cab is idle what ever button is pushed first is the direction it will go
+ # until q is empty then it will drop off at the other floors
   def format_request(user_input)
     # maybe in a class? or a module RequestHelpers
     # request = Struct.new(:floor, :direction)
-    data = user_input.split(',')
     # I hate this here
-    cab.destination = data[0].to_i
-    if data[1].nil?
-      data[0].to_i < cab.current_floor ? result = UserRequest.new(data[0].to_i, 'down') : result = UserRequest.new(data[0].to_i, 'up')
-    else
-      result = UserRequest.new(data[0].to_i, data[1])
-    end
+    # I think I calc the direction here and did not know it. look into this
+    # instead of 1,up - just 1, then I can see what the current floor is and I
+    # determin if I need to go up or down
+
+    # data = user_input.split(',')
+    # cab.destination = data[0].to_i
+    # if data[1].nil?
+    #   user_input.to_i < cab.current_floor ? result = UserRequest.new(user_input.to_i, 'down') : result = UserRequest.new(user_input.to_i, 'up')
+    # else
+    #   result = UserRequest.new(data[0].to_i, data[1])
+    # end
+
+    cab.destination = user_input.to_i
+    user_input.to_i < cab.current_floor ? result = UserRequest.new(user_input.to_i, 'down') : result = UserRequest.new(user_input.to_i, 'up')
     result
+  end
+
+  def validate_user_input(input)
+
   end
 
   def run
@@ -62,11 +75,19 @@ class ElevatorController
       puts 'what floor are you on?'
       # cab.destination = gets.chomp.to_i
       input = format_request(gets.chomp)
-      cab.cab_request_q << Request.new(input.floor, input.direction)
       if cab.destination != bottom_floor && cab.destination != top_floor
-        puts 'direction you would like to go'
+        direction_key = {
+          "u" => "up",
+          "d" => "down"
+        }
         puts buttons.floor_call_buttons(floor)
+        dir = gets.chomp
+        input.direction = direction_key[dir]
+        # cab.cab_request_q << Request.new(input.floor, input.direction)
       end
+      cab.cab_request_q << Request.new(input.floor, input.direction)
+      
+      # how will I keep them from entering 6,up if they pushed the down button, maybe I don't, it will just fall in the q or it wont go anywhere like the elevators do
       cab.call_cab
       cab.open_doors
       p buttons.cab_call_buttons
@@ -75,8 +96,8 @@ class ElevatorController
       while input = gets.chomp
         break if input == 'c'
 
-        input = input.split(',')
-        cab.cab_request_q << Request.new(input[0].to_i, input[1])
+        formated_request = format_request(input)
+        cab.cab_request_q << Request.new(formated_request.floor, formated_request.direction)
       end
 
       cab.close_doors

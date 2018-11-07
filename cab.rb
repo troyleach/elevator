@@ -27,14 +27,15 @@ class Cab
   end
 
   def close_doors
-    puts 'Doors closing behind you'
+    puts 'Doors closing'
     sleep(2)
   end
 
   def call_cab
+    # not sure this is the best place for this
+    self.idle = false
     move_cab_down
-
-    # if the cab is onn 4 and I am on 1
+    # if the cab is on 4 and I am on 1
   end
 
   def current_floor?; end
