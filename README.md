@@ -6,6 +6,7 @@ ruby version 2.4.0
 
 `ruby elevator.rb`
 
+- Turn on sound
 - Hello and Welcome to Troys Tower'
 - This building has #{floors} Floors"
 - Current Location of Elevator is Floor #{current_floor}"
