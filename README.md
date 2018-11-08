@@ -103,8 +103,9 @@ I included some design notes, image, and pseudocode. I really tried to be very
 transparent in my thought process
 
 notes and images:
-Inline-style:
-![alt text](https://github.com/troyleach/elevator/design_sketch.jpg 'Logo Title Text 1')
+
+![design sketch](https://github.com/troyleach/elevator/blob/master/design_sketch.jpg 'Logo Title Text 1')
+
 Below is simple pseudocode:
 
 ```ruby
