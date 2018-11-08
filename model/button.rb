@@ -1,6 +1,6 @@
 class Button
   attr_accessor :illeminate
-  attr_reader :cab_call_buttons
+  attr_reader :cab_call_buttons, :number_of_floors
 
   def initialize(args)
     @illeminate = false
@@ -12,7 +12,7 @@ class Button
     case floor
     when 1
       '(U) UP'
-    when cab_call_buttons.last
+    when number_of_floors
       '(D) DOWN'
     else
       ['(U) UP', '(D) DOWN']

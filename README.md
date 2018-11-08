@@ -92,6 +92,64 @@ How I determined priority direction was based on the buttons that were pushed. I
 
 I used a priority queue. I wanted to use only one. But it seemed easier to have two even with more code. It worked best for me.
 
+### Test
+
+To run test
+`rspec`
+
+### Design notes and things
+
+I included some design notes, image, and pseudocode. I really tried to be very
+transparent in my thought process
+
+notes and images:
+Inline-style:
+![alt text](https://github.com/troyleach/elevator/design_sketch.jpg 'Logo Title Text 1')
+Below is simple pseudocode:
+
+```ruby
+# Command line user
+  # [] start the elevator
+  # [] Tell the user how many floors in the building - welcome to Troy's Tower
+  # [] Tell the elevator where you are
+  # [] can make several button calls? figure this out
+  # [] Once all buttons have been pushed tell elevator to go
+
+  # Start the elevator
+    # [] Cab will start on the 4th floor
+    # [] start on the first floor
+    # [] user pushes the up button
+    # [] makes request for cab
+    # [] watch the elvator come down (display, not a big deal to have this)
+    # [] the doors will open
+    # [] then display the elvator cab buttons
+      # [] tell the user they can select as many buttons as they wish (pretending that there are a lot of peeps in the cab)
+      # [] assuming no weight limit
+      # [] then push door close button
+    # [] doors will close
+    # [] elevator will drop people off at the floors they need to go to in priorty
+    # [] once the last person is off (q is empty)
+
+# TODO - maybe I can have a method called floor. user can type something like
+  # floor(1,up) - this would make a request stating, request is coming from floor 1
+  # and they want to go up
+
+  # Process starting point
+    # [] user can pick witch floor they want to start from again
+    # [] depending on where they start display the right hall buttons.
+      # [] depending on witch button is selected (up or down, say up) then that is the priorty direction
+      # [] if on floor 5 - up button is selected
+      # [] floors 2, 1, 6, 4. then the close door button is selected
+      # [] UP is priorty
+      # [] drop off is in this order:
+       # [] UP floor 6,
+       # [] then DOWN to floor 4,
+       # [] then floor 2,
+       # [] then floor 1
+       # [] idle
+    # then repeat process until quit
+```
+
 ### References
 
 [elevator on wiki](https://en.wikipedia.org/wiki/Elevator)

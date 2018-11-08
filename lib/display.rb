@@ -45,7 +45,7 @@ class Display
     print 'Command =>  '
   end
 
-  def command 
+  def command
     print 'Command =>  '
   end
 

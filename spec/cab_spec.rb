@@ -1,8 +1,8 @@
 require 'pry'
-require_relative 'cab.rb'
-require_relative 'request_queue.rb'
-require_relative 'user_input.rb'
-require_relative 'display.rb'
+require_relative '../model/cab.rb'
+require_relative '../model/request_queue.rb'
+require_relative '../lib/user_input.rb'
+require_relative '../lib/display.rb'
 # require_relative 'request_queue.rb'
 
 describe 'class Cab' do
@@ -40,10 +40,10 @@ describe 'class Cab' do
         # runs something like format_q
         cab.format_q
 
-        expect(cab.cab_request_q['down'].pop.floor).to eq(3)
-        expect(cab.cab_request_q['down'].pop.floor).to eq(2)
-        expect(cab.cab_request_q['up'].pop.floor).to eq(7)
-        expect(cab.cab_request_q['up'].pop.floor).to eq(10)
+        expect(cab.cab_request_down.pop.floor).to eq(3)
+        expect(cab.cab_request_down.pop.floor).to eq(2)
+        expect(cab.cab_request_up.pop.floor).to eq(7)
+        expect(cab.cab_request_up.pop.floor).to eq(10)
       end
     end
 

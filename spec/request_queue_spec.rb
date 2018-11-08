@@ -1,4 +1,4 @@
-require_relative '../lib/request_queue.rb'
+require_relative '../model/request_queue.rb'
 
 describe 'queue' do
   describe 'Cab moving up' do

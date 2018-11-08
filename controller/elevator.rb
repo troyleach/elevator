@@ -9,67 +9,28 @@ class ElevatorController
   include UserInput
   attr_accessor :cab, :buttons, :quit, :floor
   attr_reader :display, :top_floor, :bottom_floor, :error
-  # attr_accessor :cab, :buttons, :quit
-  # NOTES you can have lots of elevators so when initilize this will take a arg
-  # of how many cars (cabs) GOD
 
   # Elevator endpoint contract { :floors, :cabs, :type}
   def initialize(*args)
-    # @number_of_floors = args[0][:floors]
     @top_floor = args[0][:floors]
     @bottom_floor = 1
-    # need a q
-    # @cab = Cab.new(current_floor: (1..@top_floor).sample) # can iterate here and create lots of cabs
     @cab = Cab.new # can iterate here and create lots of cabs
     @buttons = Button.new(number_of_floors: @top_floor)
-    # I think I can remove this from here the display
-    @display = Display.new({ floors: top_floor, current_floor: @cab.current_floor })
-    @quit = false
-    #dont this is needed
-    # @floor = Struct.new(:request_floor, :destination_floor, :direction)
-    @floor = nil
+    @display = Display.new(floors: top_floor, current_floor: @cab.current_floor)
     @error = ErrorMessage.new
   end
 
-# order of operation is this:
- # if cab is idle what ever button is pushed first is the direction it will go
- # until q is empty then it will drop off at the other floors
-  # def format_request(user_input)
-  #   # maybe in a class? or a module RequestHelpers
-  #   # request = Struct.new(:floor, :direction)
-  #   # I hate this here
-  #   # I think I calc the direction here and did not know it. look into this
-  #   # instead of 1,up - just 1, then I can see what the current floor is and I
-  #   # determin if I need to go up or down
-
-  #   # data = user_input.split(',')
-  #   # cab.destination = data[0].to_i
-  #   # if data[1].nil?
-  #   #   user_input.to_i < cab.current_floor ? result = UserRequest.new(user_input.to_i, 'down') : result = UserRequest.new(user_input.to_i, 'up')
-  #   # else
-  #   #   result = UserRequest.new(data[0].to_i, data[1])
-  #   # end
-
-  #   cab.destination = user_input.to_i
-  #   user_input.to_i < cab.current_floor ? result = UserRequest.new(user_input.to_i, 'down') : result = UserRequest.new(user_input.to_i, 'up')
-  #   result
-  # end
-
   def run
     display.start_elevator
-    #move below
-    # puts "what floor are you starting on? This building has #{top_floor} floors"
-    # puts 'Just enter a number'
-    # puts "Current location of Elevator #{cab.current_floor}"
-    # puts buttons.floor_call_buttons(1) they can enter what ever they want
     until quit
       input = format_request(gets.chomp)
-      if input == 'error'
-        puts error.error_message
-        input = format_request(gets.chomp)
-      end
+      # if input == 'error'
+      #   puts error.error_message
+      #   input = format_request(gets.chomp)
+      # end
 
       cab.operate_cap(input)
+
       # If not 1 or 10
         # it is U || D
       if input.floor != bottom_floor && input.floor != top_floor
@@ -78,10 +39,6 @@ class ElevatorController
 
         cab.direction = format_request(gets.chomp)
 
-        # puts " in elevator cab.direction #{cab.direction}"
-        # cab.cab_request_q << Request.new(input.floor, input.direction)
-        # if input.floor == cab.current_floor
-        # end
       end
       # I pass the prority direction here in the input
       # it is 1 || 10
@@ -99,6 +56,7 @@ class ElevatorController
       p buttons.cab_call_buttons
       print display.prompt
       while selected_floors = gets.chomp
+        puts 'fucker'
         # it is 1 || 10
         break if selected_floors == 'c'
         print display.command

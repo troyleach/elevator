@@ -1,3 +1,8 @@
+# The code works without the require_relative, however I can not test this code
+# without bring in this model and lib.
+require_relative '../model/request_queue.rb'
+require_relative '../lib/display.rb'
+
 class Cab
   attr_accessor :current_floor,
                 :destination,
@@ -17,7 +22,6 @@ class Cab
     @idle             = true
     @speed            = 1
     @direction        = nil
-    # @current_floor    = args[:current_floor]
     @current_floor    = 4
     @destination      = nil
     @cab_request_up   = RequestQueue.new(priority_direction: 'up')
