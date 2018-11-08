@@ -2,7 +2,6 @@ class Cab
   attr_accessor :current_floor,
                 :destination,
                 :speed,
-                # do not think I need direction
                 :direction,
                 :idle,
                 :cab_request_up,
@@ -22,9 +21,6 @@ class Cab
     @destination      = nil
     @cab_request_up   = RequestQueue.new(priority_direction: 'up')
     @cab_request_down = RequestQueue.new(priority_direction: 'down')
-    # @cab_request_q =
-    #   { 'up' => RequestQueue.new,
-    #     'down' => RequestQueue.new }
     @display = Display.new
   end
 
@@ -55,12 +51,6 @@ class Cab
     move_cab
   end
 
-  def current_floor?; end
-
-  # def format_q
-  #   self.cab_request_q = cab_request_q.group_by
-  # end
-
   def operate_cap(user_input)
     if idle?
       self.direction = user_input.direction
@@ -83,7 +73,6 @@ class Cab
     # format_q
     close_doors if idle?
     # close_doors I think the doors would already be closed
-    puts "FUCKER FACE priority => #{direction}"
     # binding.pry
     # take care of this.. ace the nil guard just put in arrays
 
@@ -111,7 +100,7 @@ class Cab
   def move_cab_up
     until cab_request_up.nil? || cab_request_up.empty?
       destination = cab_request_up.pop.floor
-      puts "DESTINATION => #{destination}"
+      # puts "DESTINATION => #{destination}"
       display_start = current_floor + 1
       display_start.upto(destination) do |floor|
         # dispaly_start.upto(destination.to_i) do |floor|
@@ -121,7 +110,7 @@ class Cab
       display.say_current_floor(destination)
       self.current_floor = destination
       open_doors
-      puts '...Loading'
+      puts '...Exiting'
       close_doors if idle?
     end
     # destination = cab_request_q.up.pop.floor
@@ -139,7 +128,7 @@ class Cab
   def move_cab_down
     until cab_request_down.nil? || cab_request_down.empty?
       destination = cab_request_down.pop.floor
-      puts "DESTINATION => #{destination}"
+      # puts "DESTINATION => #{destination}"
       # destination = cab_request_q.down.pop.floor
       # current_floor -= 1 but how would I display?
       display_start = current_floor - 1
@@ -150,7 +139,7 @@ class Cab
       display.say_current_floor(destination)
       self.current_floor = destination
       open_doors
-      puts '...Loading'
+      puts '...Exiting'
       close_doors if idle?
     end
     self.direction = 'up' if cab_request_up.any?

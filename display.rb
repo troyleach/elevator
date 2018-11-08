@@ -1,25 +1,26 @@
 class Display
-  # include Display
   def initialize(args = {})
     @display = args[:display]
+    @floors = args[:floors]
+    @current_floor = args[:current_floor]
   end
 
   def start_elevator
-    puts 'Hello and Welcome to Troys tower'
-    puts 'This building has 10 Floors'
-    puts 'Type "q" at any time to exit this program'
-    puts 'We are starting at the looby'
-    puts 'There could be one person waiting or 10'
-    puts 'Push the "u" to call the elevator to go up'
-    puts 'Once the cab arrives the doors will open'
-    puts 'Then you will see the elevator buttons'
-    puts 'push one or all by typing the number then return'
-    puts 'when all the passengers have selected the desired floor push the door close buttons'
-    puts 'floor,dirction'
-  end
-
-  def clear_display
-    self.display = nil
+    puts 'Hello and Welcome to Troys Tower'
+    puts "This building has #{floors} Floors"
+    puts "Current Location of Elevator is Floor #{current_floor}"
+    puts 'To start just type the floor you are on (1 - 10)'
+    puts 'After you type then number (1-10) and hit the return key you will see'
+    puts "Either [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'c'] (this represents the floor buttons OR"
+    puts 'You will see:'
+    puts '(U) UP'
+    puts '(D) DOWN'
+    puts "At this time select 'u' or 'd' and hit the return key, the buttons from above will appear"
+    puts 'You can select as many buttons as you wish by simply typing a number (1-10) then hit the return key'
+    puts 'Continue with this until all the passengers have selected thier desired floors'
+    puts "then type 'c' and hit return"
+    puts 'This will close the doors and you will be on your way'
+    puts "Type 'q' at any time to exit this program"
   end
 
   def self.display_current_floor(floor)
@@ -30,6 +31,10 @@ class Display
 
   def say_current_floor(floor)
     `say #{numbers_to_name[floor]} Floor`
+  end
+
+  def prompt
+    print 'q: quit, number, c: close door =>  '
   end
 
   # this goes in the module
@@ -65,40 +70,8 @@ class Display
       1 => 'first'
     }
   end
-end
 
-module Displayable
-  # https://github.com/radar/humanize
-  def numbers_to_name
-    {
-      100 => 'hundred',
-      90 => 'ninety',
-      80 => 'eighty',
-      70 => 'seventy',
-      60 => 'sixty',
-      50 => 'fifty',
-      40 => 'forty',
-      30 => 'thirty',
-      20 => 'twenty',
-      19 => 'nineteen',
-      18 => 'eighteen',
-      17 => 'seventeen',
-      16 => 'sixteen',
-      15 => 'fifteen',
-      14 => 'fourteen',
-      13 => 'thirteen',
-      12 => 'twelve',
-      11 => 'eleven',
-      10 => 'ten',
-      9 => 'nine',
-      8 => 'eight',
-      7 => 'seven',
-      6 => 'six',
-      5 => 'five',
-      4 => 'four',
-      3 => 'three',
-      2 => 'two',
-      1 => 'one'
-    }
-  end
+  private
+
+  attr_reader :floors, :current_floor
 end
