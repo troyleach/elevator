@@ -7,8 +7,7 @@ require_relative 'display.rb'
 
 class ElevatorController
   include UserInput
-  # UserRequest = Struct.new(:floor, :direction) this has moved to UserInput
-  attr_accessor :cab, :buttons, :quit, :floor# :UserRequest
+  attr_accessor :cab, :buttons, :quit, :floor
   attr_reader :display, :top_floor, :bottom_floor
   # attr_accessor :cab, :buttons, :quit
   # NOTES you can have lots of elevators so when initilize this will take a arg
@@ -30,20 +29,6 @@ class ElevatorController
     @floor = nil
   end
 
-  def exit_building
-    # I think I can make this just quit.
-    # BUG if I open the doors to the elevator on the first floor then type q..
-    # busts the code
-    if cab.current_floor != 1
-      puts `say Please go to first floor, unless you are doing something crazy`
-      cab.direction = 'down'
-      self.quit = true
-    else
-      puts 'thanks for visiting Leach Tower'
-      exit
-    end
-    false
-  end
 # order of operation is this:
  # if cab is idle what ever button is pushed first is the direction it will go
  # until q is empty then it will drop off at the other floors
@@ -168,7 +153,7 @@ class ElevatorController
 
 
       puts 'AT THE VERY END BEFORE HEADING BACK TO THE TOP'
-      puts 'what floor are you on now'
+      puts 'what floor are you on now?'
 
       # cab.move_cab
       # cab.cab_request_q << Request.new(input.floor, input.direction)
@@ -241,6 +226,21 @@ class ElevatorController
   end
 
   private
+
+  def exit_building
+    # I think I can make this just quit.
+    # BUG if I open the doors to the elevator on the first floor then type q..
+    # busts the code
+    if cab.current_floor != 1
+      puts `say Please go to first floor, unless you are doing something crazy`
+      cab.direction = 'down'
+      self.quit = true
+    else
+      puts 'thanks for visiting Leach Tower'
+      exit
+    end
+    false
+  end
 
   def quit?
     quit == 'q'

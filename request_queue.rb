@@ -40,21 +40,22 @@ class RequestQueue
     @requests[0].direction
   end
 
-  def group_by
-    @requests.group_by(&:direction)
+  # def group_by
+  #   @requests.group_by(&:direction)
+  # end
+
+  def any?
+    @requests.any?
+  end
+
+  def empty?
+    @requests.empty?
   end
 
   def pop
     last_request_index = @requests.size - 1
     @requests.sort!
-    # if down
-    puts "in POP => #{@priority_direction}"
-
     @requests.reverse! if @priority_direction == 'down'
     @requests.delete_at(last_request_index)
-  end
-
-  def empty?
-    @requests.empty?
   end
 end

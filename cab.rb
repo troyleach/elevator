@@ -87,17 +87,19 @@ class Cab
     # binding.pry
     # take care of this.. ace the nil guard just put in arrays
 
-    # until cab_request_up.nil? && cab_request_down.empty?
-      if direction == 'up'
+    # until cab_request_up.nil? && cab_request_up.empty?
+    until cab_request_up.empty? && cab_request_down.empty?
+      if direction == 'up' && cab_request_up.any?
         # Go this direction until the box is empty
         # if cab_request_q.direction == 'up'
         # if direction == 'up' && cab_request_q.direction == 'up'
         move_cab_up
+      # elsif direction == 'down' && cab_request_down.any?
       else
         # OR Go this direction until the box is empty
         move_cab_down
       end
-    # end
+    end
 
     # self.cab_request_q = RequestQueue.new
     self.destination = nil
@@ -110,8 +112,8 @@ class Cab
     until cab_request_up.nil? || cab_request_up.empty?
       destination = cab_request_up.pop.floor
       puts "DESTINATION => #{destination}"
-      dispaly_start = current_floor + 1
-      dispaly_start.upto(destination) do |floor|
+      display_start = current_floor + 1
+      display_start.upto(destination) do |floor|
         # dispaly_start.upto(destination.to_i) do |floor|
         sleep(speed)
         Display.display_current_floor(floor)
@@ -130,6 +132,7 @@ class Cab
     # destination = destination.to_i
     # don't like this floor + 1 stuff
 
+    self.direction = 'down' if cab_request_down.any?
     self.current_floor = destination
   end
 
@@ -150,6 +153,7 @@ class Cab
       puts '...Loading'
       close_doors if idle?
     end
+    self.direction = 'up' if cab_request_up.any?
     self.current_floor = destination
   end
 
