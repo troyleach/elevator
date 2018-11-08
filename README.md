@@ -16,7 +16,7 @@ q: quit (press return key), number (press return key), c: close door (press retu
 Command =>
 ```
 
-- To start just type the floor you are starting on (1 - 10)'
+- To start just type the floor you are starting on (1 - 10)
 - After you typed a number (1-10) hit the return key'
 - wait for the cab to arrive
 - then you will see something like:
@@ -45,7 +45,8 @@ Command =>
 - The numbers represent the button floor numbers and the `c` represents `close doors`
 - Type as many floors as you want. Just remember to hit the return key after each selection.
   > A better design might be to ask the user to select the floors separated by commas. I have
-  > always felt it to be a challenge to collect user input. `1,4,6`
+  > always felt it to be a challenge to collect user input. `1,4,6`. No matter how
+  > clear I think it is, somebody wont get it. (I mean that in the nicest of ways (#raul))
 - then type 'c' and hit return"
 
 ```bash
@@ -58,7 +59,7 @@ Command =>  5
 Command =>  c
 ```
 
-- This will close the doors and you will be on your way'
+- This will close the doors and you will be on your way
 - Set back and enjoy the ride
 - Type 'q' at any time to exit this program"
 
