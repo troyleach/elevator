@@ -6,9 +6,16 @@ clone this repro
 
 ruby version ruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-darwin14]
 
-To start type: `ruby controller/elevator.rb` into the command line
+### Flow
 
-- Turn on sound
+Turn on sound
+
+#### To start:
+
+`cd into elevator folder`
+
+`ruby controller/elevator.rb`
+
 - No harsh moves wait for the command prompt to act
 
 ```bash
@@ -69,12 +76,22 @@ There are a lot of different ways to design this. Also one could code for days a
 
 To time box what I wanted to get done the basic flow is as follows.
 
-- You select a starting floor
-- The cab is then called to that floor
-- if you are on the 1 first or last floor the priority direction is either up (for 1) or down (for last floor) and the cab will continue in that direction until the Q is empty then it will check to see if the opposite direction Q has stops and act accordingly.
-- Obviously at each stop people can get on and push buttons. While this can handle this I did not code this in.
-- How I detirmend proprity direction was but the buttons that were pushed. If passenger was on 1st floor the priority direction was up, if the last floor the priority direction was down. If the passenger was on a middle floor, if up was pushed then up was the priority direction and if down was pushed then down was the priority direction.
+You select a starting floor
 
-NOTES:
+The cab is then called to that floor
 
-- look for a return ascii symbole
+If on the 1 first or last floor the priority direction is either up (for 1) or down (for last floor) and the cab will continue in that direction until the Q is empty then it will check to see if the opposite direction Q has stops and act accordingly.
+
+Obviously at each stop people can get on and push buttons. While I feel the software can handle this I did not incorporate this into the design.
+
+How I determined priority direction was based on the buttons that were pushed. If passenger was on 1st floor the priority direction was up, if the last floor the priority direction was down. If the passenger was on a middle floor, if up was pushed then up was the priority direction and if down was pushed then down was the priority direction.
+
+### Data Structure
+
+I used a priority queue. I wanted to use only one. But it seemed easier to have two even with more code. It worked best for me.
+
+### References
+
+[elevator on wiki](https://en.wikipedia.org/wiki/Elevator)
+
+[Priority queue](https://rosettacode.org/wiki/Priority_queue#Ruby)
