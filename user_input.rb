@@ -1,5 +1,5 @@
 module UserInput
-  UserRequest = Struct.new(:floor, :direction)
+  UserRequest = Struct.new(:floor, :direction, :priority)
   def format_request(user_input)
     # maybe in a class? or a module RequestHelpers
     # request = Struct.new(:floor, :direction)

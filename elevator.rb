@@ -22,6 +22,7 @@ class ElevatorController
     # need a q
     @cab = Cab.new # can iterate here and create lots of cabs
     @buttons = Button.new(number_of_floors: @top_floor)
+    # I think I can remove this from here the display
     @display = Display.new
     @quit = false
     #dont this is needed
@@ -74,53 +75,124 @@ class ElevatorController
   def run
     display.start_elevator
     #move below
-    puts 'what floor are you starting on?'
+    puts "what floor are you starting on? This building has #{top_floor} floors"
     puts 'Just enter a number'
+    puts "Current location of Elevator #{cab.current_floor}"
     # puts buttons.floor_call_buttons(1) they can enter what ever they want
     until quit
+      puts 'AT THE VERY TOP'
+      # quit ? exit : nil
+      # exit_building if gets.chomp == 'q'
       input = format_request(gets.chomp)
+      cab.operate_cap(input)
 
-      # Not sure this goes here
+
+
+
+
+
+
+      # 1 through 10 in this skeme 1 is down and 10 is up bc of the current_position of the elev
+      # U || D
+
+      # direction_key = {
+      #   top_floor.to_s => 'down',
+      #   bottom_floor.to_s => 'up',
+      #   'u' => 'up',
+      #   'd' => 'down'
+      # }
+
+
+      # SKIP
+      # If not 1 or 10 - Not sure this goes here
+        # it is U || D
       if input.floor != bottom_floor && input.floor != top_floor
+        puts "in Elevator not 1 or 10 #{input}"
         direction_key = {
-          "u" => "up",
-          "d" => "down"
+          top_floor.to_s => 'down',
+          bottom_floor.to_s => 'up',
+          'u' => 'up',
+          'd' => 'down'
         }
         puts buttons.floor_call_buttons(floor)
         dir = gets.chomp
         cab.direction = direction_key[dir]
+        puts " in elevator cab.direction #{cab.direction}"
         # cab.cab_request_q << Request.new(input.floor, input.direction)
+        # if input.floor == cab.current_floor
+        # end
       end
-      # cab.cab_request_q << Request.new(input.floor, input.direction)
-      cab.call_cab(input)
+      # SKIP
 
-      exit
-      cab.move_cab
-      cab.cab_request_q << Request.new(input.floor, input.direction)
-      
-      # how will I keep them from entering 6,up if they pushed the down button, maybe I don't, it will just fall in the q or it wont go anywhere like the elevators do
-      cab.call_cab
-      cab.open_doors
+
+      puts 'AFTER THE FLOOR IS NOT 1 OR 10'
+
+      # I pass the prority direction here in the input
+      # it is 1 || 10
+
+      # if input.floor == bottom_floor
+      #   cab.direction = 'up'
+      # end
+      cab.direction = 'up' if input.floor == bottom_floor
+      cab.direction = 'down' if input.floor == top_floor
+
+      # if input.floor == top_floor
+      #   cab.direction = 'down'
+      # end
+
       p buttons.cab_call_buttons
+      while selected_floors = gets.chomp
+        # it is 1 || 10
+        break if selected_floors == 'c'
 
-      # input = gets.chomp.split(',')
-      while input = gets.chomp
-        break if input == 'c'
+        formated_request = format_request(selected_floors)
+        # TODO this needs to be fixed hard coded up also needs to be moved to one place
+        if formated_request.direction == 'up'
+          cab.cab_request_up << Request.new(formated_request.floor, formated_request.direction)
+        end
+        if formated_request.direction == 'down'
+          cab.cab_request_down << Request.new(formated_request.floor, formated_request.direction)
+        end
 
-        formated_request = format_request(input)
-        cab.cab_request_q << Request.new(formated_request.floor, formated_request.direction)
       end
+      
 
-      cab.close_doors
+
+
+      # puts "prioridty direction => #{direction_key[input.floor.to_s]}"
+      # cab.direction = "up"
+      # cab.direction = "down"
       cab.move_cab
+
+
+
+
+      puts 'AT THE VERY END BEFORE HEADING BACK TO THE TOP'
+      puts 'what floor are you on now'
+
+      # cab.move_cab
+      # cab.cab_request_q << Request.new(input.floor, input.direction)
+      
+      # # how will I keep them from entering 6,up if they pushed the down button, maybe I don't, it will just fall in the q or it wont go anywhere like the elevators do
+      # cab.call_cab
+      # cab.open_doors
+
+      # # input = gets.chomp.split(',')
+      # while input = gets.chomp
+      #   break if input == 'c'
+
+      #   formated_request = format_request(input)
+      #   cab.cab_request_q << Request.new(formated_request.floor, formated_request.direction)
+      # end
+
+      # cab.close_doors
+      # cab.move_cab
 
       # floor == 1 ? 'up' : cab.direction = gets.chomp.downcase
 
       # request = gets.chomp.split(',')
       # cab.cab_request_q << Request.new
 
-      quit ? exit : nil
-      exit_building if action1 == 'q'
       # where is the passenger
       # then move cab to me
       # if the cab is idel
@@ -146,24 +218,24 @@ class ElevatorController
       # depending on the direciton the elevator is already heading go that direction
       # if the elevator is idle go tothe closet floor then depending on the direction
       # go that direction
-      cab.direction = action1 == 'u' ? 'up' : 'down'
-      # TODO: can not push any numbers above the current floor??? if down call
-      buttons.illeminate = true
-      Cab.open_doors
-      Display.display_current_floor(cab.current_floor)
-      p buttons.cab_call_buttons
-      cab.destination = gets.chomp.to_i
-      Cab.close_doors
+      # cab.direction = action1 == 'u' ? 'up' : 'down'
+      # # TODO: can not push any numbers above the current floor??? if down call
+      # buttons.illeminate = true
+      # Cab.open_doors
+      # Display.display_current_floor(cab.current_floor)
+      # p buttons.cab_call_buttons
+      # cab.destination = gets.chomp.to_i
+      # Cab.close_doors
 
-      if cab.direction == 'up'
-        cab.move_cab_up
-      else
-        cab.move_cab_down
-      end
+      # if cab.direction == 'up'
+      #   cab.move_cab_up
+      # else
+      #   cab.move_cab_down
+      # end
 
-      Cab.open_doors
-      Cab.close_doors
-      buttons.illeminate = false
+      # Cab.open_doors
+      # Cab.close_doors
+      # buttons.illeminate = false
     end
     puts 'Have a great day'
   end

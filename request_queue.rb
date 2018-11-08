@@ -11,21 +11,25 @@ class Request
     @direction = direction
   end
 
-  # def <=>(other)
-  #   other.floor <=> @floor
-  # end
   def <=>(other)
-    if @direction == 'up'
-      other.floor <=> @floor
-    else
-      @floor <=> other.floor
-    end
+    other.floor <=> @floor
+    # @floor <=> other.floor
   end
+  # def <=>(other)
+  #   if @direction == 'up'
+  #     other.floor <=> @floor
+  #   elsif @direction == 'down'
+  #     @floor <=> other.floor
+  #   end
+  #   # other.floor <=> @floor if @direction == 'up'
+  #   # @floor <=> other.floor if @direction == 'down'
+  # end
 end
 
 class RequestQueue
-  def initialize
+  def initialize(args)
     @requests = []
+    @priority_direction = args[:priority_direction]
   end
 
   def <<(request)
@@ -43,6 +47,10 @@ class RequestQueue
   def pop
     last_request_index = @requests.size - 1
     @requests.sort!
+    # if down
+    puts "in POP => #{@priority_direction}"
+
+    @requests.reverse! if @priority_direction == 'down'
     @requests.delete_at(last_request_index)
   end
 

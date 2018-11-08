@@ -24,11 +24,16 @@ class Display
 
   def self.display_current_floor(floor)
     display = floor
+    puts display
+    # `say #{numbers_to_name[floor]} Floor`
+  end
+
+  def say_current_floor(floor)
     `say #{numbers_to_name[floor]} Floor`
   end
 
   # this goes in the module
-  def self.numbers_to_name
+  def numbers_to_name
     {
       100 => 'hundred',
       90 => 'ninety',

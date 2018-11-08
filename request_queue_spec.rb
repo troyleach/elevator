@@ -43,10 +43,10 @@ describe 'queue' do
   describe 'Cab moving down' do
     let(:q) { RequestQueue.new }
     it 'expect positive results' do
-      q << Request.new(4, 'dn')
-      q << Request.new(3, 'dn')
-      q << Request.new(5, 'dn')
-      q << Request.new(2, 'dn')
+      q << Request.new(4, 'down')
+      q << Request.new(3, 'down')
+      q << Request.new(5, 'down')
+      q << Request.new(2, 'down')
 
       expect(q.empty?).to be(false)
       expect(q.pop.floor).to eq(5)
@@ -59,16 +59,29 @@ describe 'queue' do
   describe 'Cab moving down' do
     let(:q) { RequestQueue.new }
     it 'expect positive results' do
-      q << Request.new(4, 'dn')
-      q << Request.new(3, 'dn')
-      q << Request.new(5, 'dn')
-      q << Request.new(2, 'dn')
+      q << Request.new(4, 'down')
+      q << Request.new(3, 'down')
+      q << Request.new(5, 'down')
+      q << Request.new(2, 'down')
 
       expect(q.empty?).to be(false)
       expect(q.pop.floor).to eq(5)
       expect(q.pop.floor).to eq(4)
       expect(q.pop.floor).to eq(3)
       expect(q.pop.floor).to eq(2)
+    end
+
+    it 'populated in order of pop' do
+      q << Request.new(4, 'down')
+      q << Request.new(3, 'down')
+      q << Request.new(2, 'down')
+      q << Request.new(1, 'down')
+
+      expect(q.empty?).to be(false)
+      expect(q.pop.floor).to eq(4)
+      expect(q.pop.floor).to eq(3)
+      expect(q.pop.floor).to eq(2)
+      expect(q.pop.floor).to eq(1)
     end
   end
 
