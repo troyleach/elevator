@@ -86,6 +86,8 @@ Obviously at each stop people can get on and push buttons. While I feel the soft
 
 How I determined priority direction was based on the buttons that were pushed. If passenger was on 1st floor the priority direction was up, if the last floor the priority direction was down. If the passenger was on a middle floor, if up was pushed then up was the priority direction and if down was pushed then down was the priority direction.
 
+`elevator.rb` is the controller of the program. Manages the Q and can delegate requests to one or many cabs.
+
 ### Data Structure
 
 I used a priority queue. I wanted to use only one. But it seemed easier to have two even with more code. It worked best for me.
