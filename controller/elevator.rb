@@ -1,10 +1,9 @@
-require 'pry'
-require_relative 'request_queue.rb'
-require_relative 'cab.rb'
-require_relative 'button.rb'
-require_relative 'user_input.rb'
-require_relative 'display.rb'
-require_relative 'error_messages.rb'
+require_relative '../model/request_queue.rb'
+require_relative '../model/cab.rb'
+require_relative '../model/button.rb'
+require_relative '../lib/user_input.rb'
+require_relative '../lib/display.rb'
+require_relative '../lib/error_messages.rb'
 
 class ElevatorController
   include UserInput
@@ -20,6 +19,7 @@ class ElevatorController
     @top_floor = args[0][:floors]
     @bottom_floor = 1
     # need a q
+    # @cab = Cab.new(current_floor: (1..@top_floor).sample) # can iterate here and create lots of cabs
     @cab = Cab.new # can iterate here and create lots of cabs
     @buttons = Button.new(number_of_floors: @top_floor)
     # I think I can remove this from here the display
@@ -70,23 +70,12 @@ class ElevatorController
       end
 
       cab.operate_cap(input)
-
-      # SKIP
-      # If not 1 or 10 - Not sure this goes here
+      # If not 1 or 10
         # it is U || D
       if input.floor != bottom_floor && input.floor != top_floor
-        # puts "in Elevator not 1 or 10 #{input}"
-        # direction_key = {
-        #   top_floor.to_s => 'down',
-        #   bottom_floor.to_s => 'up',
-        #   'u' => 'up',
-        #   'd' => 'down'
-        # }
         puts buttons.floor_call_buttons(floor)
-        # dir = format_request(gets.chomp)
+        print display.command
 
-        # direciton = gets.chomp
-        # cab.direction = direction_key[dir]
         cab.direction = format_request(gets.chomp)
 
         # puts " in elevator cab.direction #{cab.direction}"
@@ -110,12 +99,9 @@ class ElevatorController
       p buttons.cab_call_buttons
       print display.prompt
       while selected_floors = gets.chomp
-        if selected_floors == 'error'
-          puts error.error_message
-          formated_request = format_request(selected_floors)
-        end
         # it is 1 || 10
         break if selected_floors == 'c'
+        print display.command
         # print selected_floors if error
 
         formated_request = format_request(selected_floors)
@@ -129,110 +115,11 @@ class ElevatorController
       end
 
       cab.move_cab
-      puts 'what floor are you on now?'
+      display.next_command
 
-
-
-
-
-      # cab.move_cab
-      # cab.cab_request_q << Request.new(input.floor, input.direction)
-      
-      # # how will I keep them from entering 6,up if they pushed the down button, maybe I don't, it will just fall in the q or it wont go anywhere like the elevators do
-      # cab.call_cab
-      # cab.open_doors
-
-      # # input = gets.chomp.split(',')
-      # while input = gets.chomp
-      #   break if input == 'c'
-
-      #   formated_request = format_request(input)
-      #   cab.cab_request_q << Request.new(formated_request.floor, formated_request.direction)
-      # end
-
-      # cab.close_doors
-      # cab.move_cab
-
-      # floor == 1 ? 'up' : cab.direction = gets.chomp.downcase
-
-      # request = gets.chomp.split(',')
-      # cab.cab_request_q << Request.new
-
-      # where is the passenger
-      # then move cab to me
-      # if the cab is idel
-        # send it down
-      # otherwise put this request in the q
-
-
-
-
-
-      #this does not work??? this assumes the cab is on the same floor
-      # things I need to know for requests.
-        # The floor that the request is being made from
-        # up or down
-      # maybe not do a priorty Q - just sort the numbers.. so it going up
-      # sort, then when at the last of the ups... do downs
-
-
-      # {
-      #   up: [Array of up objects {from to}],
-      #   down: [Array of down objects {from to}]
-      # }
-      # depending on the direciton the elevator is already heading go that direction
-      # if the elevator is idle go tothe closet floor then depending on the direction
-      # go that direction
-      # cab.direction = action1 == 'u' ? 'up' : 'down'
-      # # TODO: can not push any numbers above the current floor??? if down call
-      # buttons.illeminate = true
-      # Cab.open_doors
-      # Display.display_current_floor(cab.current_floor)
-      # p buttons.cab_call_buttons
-      # cab.destination = gets.chomp.to_i
-      # Cab.close_doors
-
-      # if cab.direction == 'up'
-      #   cab.move_cab_up
-      # else
-      #   cab.move_cab_down
-      # end
-
-      # Cab.open_doors
-      # Cab.close_doors
-      # buttons.illeminate = false
     end
-    puts 'Have a great day'
   end
 
-  private
-
-  # def exit_building
-  #   # I think I can make this just quit.
-  #   # BUG if I open the doors to the elevator on the first floor then type q..
-  #   # busts the code
-  #   if cab.current_floor != 1
-  #     puts `say Please go to first floor, unless you are doing something crazy`
-  #     cab.direction = 'down'
-  #     self.quit = true
-  #   else
-  #     puts 'thanks for visiting Leach Tower'
-  #     exit
-  #   end
-  #   false
-  # end
-
-  # def quit?
-  #   quit == 'q'
-  # end
-
-  # def top?
-  #   self.floor = top_floor
-  # end
-
-  # def lobby?
-  #   self.floor = bottom_floor
-  # end
 
 end
 

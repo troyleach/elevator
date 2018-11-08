@@ -1,6 +1,3 @@
-require 'pry'
-#  CabRequest
-# group_by(&:direction)
 class Request
   include Comparable
 
@@ -13,17 +10,7 @@ class Request
 
   def <=>(other)
     other.floor <=> @floor
-    # @floor <=> other.floor
   end
-  # def <=>(other)
-  #   if @direction == 'up'
-  #     other.floor <=> @floor
-  #   elsif @direction == 'down'
-  #     @floor <=> other.floor
-  #   end
-  #   # other.floor <=> @floor if @direction == 'up'
-  #   # @floor <=> other.floor if @direction == 'down'
-  # end
 end
 
 class RequestQueue
@@ -39,10 +26,6 @@ class RequestQueue
   def direction
     @requests[0].direction
   end
-
-  # def group_by
-  #   @requests.group_by(&:direction)
-  # end
 
   def any?
     @requests.any?

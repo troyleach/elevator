@@ -1,11 +1,8 @@
-# request coming in
-# I am on the first floor
-# I want to go up
-require_relative 'request_queue.rb'
+require_relative '../lib/request_queue.rb'
 
 describe 'queue' do
   describe 'Cab moving up' do
-    let(:q) { RequestQueue.new }
+    let(:q) { RequestQueue.new(priority_direction: 'up') }
 
     it 'expect positive results' do
       q << Request.new(2, 'up')
@@ -41,7 +38,7 @@ describe 'queue' do
   end
 
   describe 'Cab moving down' do
-    let(:q) { RequestQueue.new }
+    let(:q) { RequestQueue.new(priority_direction: 'down') }
     it 'expect positive results' do
       q << Request.new(4, 'down')
       q << Request.new(3, 'down')
@@ -57,7 +54,7 @@ describe 'queue' do
   end
 
   describe 'Cab moving down' do
-    let(:q) { RequestQueue.new }
+    let(:q) { RequestQueue.new(priority_direction: 'down') }
     it 'expect positive results' do
       q << Request.new(4, 'down')
       q << Request.new(3, 'down')
@@ -82,23 +79,6 @@ describe 'queue' do
       expect(q.pop.floor).to eq(3)
       expect(q.pop.floor).to eq(2)
       expect(q.pop.floor).to eq(1)
-    end
-  end
-
-  describe '#group_by' do
-    let(:q) { RequestQueue.new }
-    it 'expect positive results' do
-      q << Request.new(2, 'down')
-      q << Request.new(7, 'up')
-      q << Request.new(3, 'down')
-      q << Request.new(10, 'up')
-      result = q.group_by
-
-      expect(result.keys).to eq(%w[down up])
-      expect(result['up']).to include(7)
-      expect(result['up']).to include(10)
-      expect(result['down']).to include(2)
-      expect(result['down']).to include(3)
     end
   end
 end

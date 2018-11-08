@@ -17,6 +17,7 @@ class Cab
     @idle             = true
     @speed            = 1
     @direction        = nil
+    # @current_floor    = args[:current_floor]
     @current_floor    = 4
     @destination      = nil
     @cab_request_up   = RequestQueue.new(priority_direction: 'up')

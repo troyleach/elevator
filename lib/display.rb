@@ -9,6 +9,13 @@ class Display
     puts 'Hello and Welcome to Troys Tower'
     puts "This building has #{floors} Floors"
     puts "Current Location of Elevator is Floor #{current_floor}"
+    puts
+    puts directions
+    puts
+    print prompt
+  end
+
+  def directions
     puts 'To start just type the floor you are on (1 - 10)'
     puts 'After you type then number (1-10) and hit the return key you will see'
     puts "Either [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'c'] (this represents the floor buttons OR"
@@ -34,7 +41,16 @@ class Display
   end
 
   def prompt
-    print 'q: quit, number, c: close door =>  '
+    puts 'q: quit (press return key), number (press return key), c: close door (press return key)'
+    print 'Command =>  '
+  end
+
+  def command 
+    print 'Command =>  '
+  end
+
+  def next_command
+    prompt
   end
 
   # this goes in the module
